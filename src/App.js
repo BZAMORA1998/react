@@ -18,9 +18,9 @@ class Text extends Component{
 
 class Contador extends Component{
 
-  constructor(){
-    super();
-    this.state={contador:1}
+  constructor(props){
+    super(props);
+    this.state={contador:this.props.contadorInicial}
     setInterval(()=>{
       this.setState({contador:this.state.contador+1})
     },1000)
@@ -31,7 +31,11 @@ class Contador extends Component{
   }
 }
 
-function App() {
+Contador.defaultProps={
+  contadorInicial:0
+}
+
+function Ap() {
   return (
     <div className="App">
       <Hello title="Hola Bryan"/>
@@ -39,6 +43,45 @@ function App() {
       <Contador />
     </div>
   );
+}
+
+class App extends Component{
+  constructor(){
+    super();
+    this.state={
+      inputName:"Hola mundo"
+    };
+  }
+
+  Click=(e)=>{
+    e.preventDefault();
+   // const texto=document.getElementById('texto').value;
+   const texto=this.inputName.value;
+    console.log(texto);
+  }
+
+  render(){
+    const numbers=[1,2,3,4,5];
+    return (
+      <div> Lista de numeros 
+          {numbers.map((number,index)=>{
+            return <p key={index}>Soy el numero {number}</p>
+          })}
+          <Ap />
+          <form>
+            <input 
+            type="text" 
+            id='texto' 
+            placeholder="Hola mundo" 
+            ref={inputElement=>this.inputName=inputElement}
+            value={this.state.inputName}
+            onChange={e=>this.setState({inputName:e.target.value})}
+            />
+            <button onClick={this.Click}>Click me</button>
+          </form>
+        </div>
+      )
+  }
 }
 
 
